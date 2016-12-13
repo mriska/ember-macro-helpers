@@ -31,7 +31,10 @@ function buildCallback(keys, incomingCallback, getValue) {
       };
     }
     if (incomingCallback.set) {
-      newCallback.set = incomingCallback.set;
+      newCallback.set = function(key, value) {
+        let values = mapKeysToValues(collapsedKeys, getValue, this);
+        return incomingCallback.set.call(this, value, ...values);
+      };
     }
   }
 
